@@ -1,0 +1,30 @@
+﻿@model List<Feedback_Management.Controllers.FeedbackData>
+
+<h2>Student Feedback List</h2>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+        <th>Enrollment No</th>
+        <th>Student Name</th>
+        <th>Subject</th>
+        <th>Rating</th>
+        <th>Comment</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Enrollment</td>
+            <td>@item.Name</td>
+            <td>@item.Subject</td>
+            <td>@item.Rating</td>
+            <td>@item.Comment</td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+@Html.ActionLink("Create New Feedback", "Create", "Feedback")
