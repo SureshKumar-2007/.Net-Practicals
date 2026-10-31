@@ -1,0 +1,224 @@
+﻿
+@model IEnumerable<PlacementDashboard.Models.Student>
+
+@{
+    ViewBag.Title = "Placement Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: #f4f7fb;
+    }
+
+    .dashboard-container {
+        padding: 25px 15px;
+    }
+
+    .dashboard-title {
+        color: #1e293b;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .dashboard-subtitle {
+        color: #64748b;
+        margin-bottom: 25px;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border-left: 5px solid #2563eb;
+    }
+
+        .summary-card.green {
+            border-left-color: #16a34a;
+        }
+
+        .summary-card.purple {
+            border-left-color: #7c3aed;
+        }
+
+    .summary-label {
+        color: #64748b;
+        font-size: 15px;
+        margin-bottom: 10px;
+    }
+
+    .summary-value {
+        color: #1e293b;
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .table-container {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .table-title {
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 20px;
+    }
+
+    .placement-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .placement-table thead {
+            background: #1e3a8a;
+            color: white;
+        }
+
+        .placement-table th {
+            padding: 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .placement-table td {
+            padding: 13px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .placement-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+    .status-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .placed {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .not-placed {
+        background: #fee2e2;
+        color: #991b1b;
+    }
+
+    .package-value {
+        font-weight: 600;
+    }
+
+    @@media (max-width: 768px) {
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .placement-table {
+            min-width: 700px;
+        }
+    }
+</style>
+
+<div class="container-fluid dashboard-container">
+
+    <h2 class="dashboard-title">Placement Dashboard</h2>
+
+    <p class="dashboard-subtitle">
+        Student Placement Management System
+    </p>
+    <div class="summary-grid">
+
+        <div class="summary-card">
+            <div class="summary-label">Total Students</div>
+            <h2 class="summary-value">
+                @ViewBag.TotalStudents
+            </h2>
+        </div>
+
+        <div class="summary-card green">
+            <div class="summary-label">Placed Students</div>
+            <h2 class="summary-value">
+                @ViewBag.PlacedStudents
+            </h2>
+        </div>
+
+        <div class="summary-card purple">
+            <div class="summary-label">Placement Percentage</div>
+            <h2 class="summary-value">
+                @ViewBag.PlacementPercentage.ToString("0.00")%
+            </h2>
+        </div>
+
+    </div>
+    <div class="table-container">
+
+        <h3 class="table-title">
+            Student Placement Records
+        </h3>
+
+        <table class="placement-table">
+
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Department</th>
+                    <th>Company</th>
+                    <th>Package (LPA)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var student in Model)
+                {
+                    <tr>
+                        <td>@student.StudentID</td>
+                        <td><strong>@student.StudentName</strong></td>
+                        <td>@student.Department</td>
+                        <td>@student.Company</td>
+                        <td class="package-value">
+                            @student.Package.ToString("0.00")
+                        </td>
+                        <td>
+                            @if (student.Status == "Placed")
+                            {
+                                <span class="status-badge placed">
+                                    Placed
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-badge not-placed">
+                                    Not Placed
+                                </span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
